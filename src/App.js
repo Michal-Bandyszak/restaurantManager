@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ShiftProvider } from './Components/ShiftProvider';
+import { KanbanBoard } from './Components/KanbanBoard';
+import { Workers } from './Components/Workers';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ShiftProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<KanbanBoard />} />
+          <Route path="/workers" element={<Workers />} />
+          {/* <Route path="/add-shift" component={AddShift} /> */}
+        </Routes>
+      </BrowserRouter>
+    </ShiftProvider>
   );
 }
 
