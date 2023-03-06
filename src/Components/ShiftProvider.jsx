@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShiftContext } from './ShiftContext';
 import { KanbanBoard } from './KanbanBoard';
+import { getAllShifts } from '../API/api';
 
 export function ShiftProvider({ children }) {
   const [shifts, setShifts] = useState([]);
@@ -8,15 +9,10 @@ export function ShiftProvider({ children }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:8088/shift/all')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        return response.json()
-      })
-      .then((data) => {
-        setShifts(data);
+
+    getAllShifts()
+      .then((shifts) => {
+        setShifts(shifts);
         setLoading(false);
       })
       .catch((error) => {

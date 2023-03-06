@@ -30,7 +30,7 @@ export function KanbanBoard() {
                   <div
                     key={shift.id}
                     className={`shift-card ${
-                      shift.available ? '' : 'shift-card-unavailable'
+                      shift.available ? '' : 'not-available'
                     }`}
                   >
                     {shift.worker ? (

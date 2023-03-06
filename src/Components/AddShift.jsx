@@ -28,8 +28,4 @@ export function AddShift() {
       .catch((err) => console.log(err));
   };
 
-  return (
-    <WorkerContext.Consumer>
-      {(context) => (
-        <form onSubmit={handleSubmit}>
-          <label>
+}
