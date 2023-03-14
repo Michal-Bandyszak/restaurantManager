@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import './KanbanBoard.css';
 
 export function KanbanBoard() {
-  const { shifts } = useContext(ShiftContext);
+  // const { shifts } = useContext(ShiftContext);
 
   // group shifts by date and sort by date
   const groupedShifts = shifts

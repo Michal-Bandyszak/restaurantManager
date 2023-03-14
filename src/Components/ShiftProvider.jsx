@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShiftContext } from './ShiftContext';
 import { KanbanBoard } from './KanbanBoard';
-import { getAllShifts } from '../API/api';
+import { getAllShifts } from '../API/Api';
 
 export function ShiftProvider({ children }) {
   const [shifts, setShifts] = useState([]);

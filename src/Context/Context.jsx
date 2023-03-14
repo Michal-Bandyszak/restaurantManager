@@ -1,16 +1,16 @@
 import { createContext, useReducer } from 'react';
 import { restaurantReducer, initialRestaurantState } from '../Reducers/';
 
-export const TodoContextComponent = createContext({});
+export const RestaurantContextComponent = createContext({});
 
-function TodoContext({ children }) {
-  const [state, dispatch] = useReducer(todoReducer, initialRestaurantState);
+function RestaurantContext({ children }) {
+  const [state, dispatch] = useReducer(restaurantReducer, initialRestaurantState);
 
   return (
-    <TodoContextComponent.Provider value={[state, dispatch]}>
+    <RestaurantContextComponent.Provider value={[state, dispatch]}>
       {children}
-    </TodoContextComponent.Provider>
+    </RestaurantContextComponent.Provider>
   );
 }
 
-export default TodoContext;
+export default RestaurantContext;
