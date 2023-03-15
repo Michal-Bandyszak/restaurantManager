@@ -6,6 +6,7 @@ export const initialRestaurantState = {
 
 const  ADD_WORKER = '[WORKER] Add Worker';
 const LOGIN_USER = '[User] Login';
+const LOGOUT_USER = '[User] Logout';
 
 export const loginUser = () => ({
   type: LOGIN_USER,

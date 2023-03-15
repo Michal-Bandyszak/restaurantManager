@@ -1,7 +1,6 @@
-// Lista funkcji z fetch request np. sam fetch
 
 export function login(username, password) {
-  const params = new URLSearchParams({token, shiftId});
+  const params = new URLSearchParams({username, password});
   return fetch(`http://localhost:8088/login?${params.toString()}`)
     .then((response) => {
       if(!response.ok) {
@@ -198,7 +197,7 @@ export function getAllWorkers(token) {
   return fetch(`https://localhost:8088/workers/all?${params}`)
     .then((response) => {
       if(!response.ok) {
-        throw new Error("HTTP status " + response.status)
+        throw new Error("HTTP status " + response.status + " Message: " + response.text())
       }
       return response.json();
     });

@@ -3,10 +3,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import { ShiftProvider } from './Components/ShiftProvider';
 import { KanbanBoard } from './Components/KanbanBoard';
 // import { Workers } from './Components/Workers';
-import { addShift } from '../API/Api';
+
 
 function App() {
-  // addShift(952452883, '8:00', '16:00', true, 1)
+ 
   return (
   
     <ShiftProvider>
