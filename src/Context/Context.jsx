@@ -1,16 +1,16 @@
 import { createContext, useReducer } from 'react';
-import { restaurantReducer, initialRestaurantState } from '../Reducers/';
+import { workerReducer, initialRestaurantState } from '../Reducers/restaurantReducer';
 
-export const RestaurantContextComponent = createContext({});
+export const RestaurantContext = createContext({});
 
-function RestaurantContext({ children }) {
-  const [state, dispatch] = useReducer(restaurantReducer, initialRestaurantState);
+function RestaurantProvider({ children }) {
+  const [state, dispatch] = useReducer(workerReducer, initialRestaurantState);
 
   return (
-    <RestaurantContextComponent.Provider value={[state, dispatch]}>
+    <RestaurantContext.Provider value={[state, dispatch]}>
       {children}
-    </RestaurantContextComponent.Provider>
+    </RestaurantContext.Provider>
   );
 }
 
-export default RestaurantContext;
+export default RestaurantProvider;

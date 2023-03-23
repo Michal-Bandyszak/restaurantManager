@@ -1,24 +1,18 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-// import { ShiftProvider } from './Components/ShiftProvider';
 import { KanbanBoard } from './Components/KanbanBoard';
-// import { Workers } from './Components/Workers';
+import LoginPage from './Components/LoginPage';
+import RestaurantProvider from './Context/Context';
+import RoutesList from './Routes/RoutersLists';
 
 
 function App() {
- 
   return (
-  
-    <ShiftProvider>
+    <RestaurantProvider>
       <BrowserRouter>
-        <Routes>
-          {/* <Route exact path="/" element={<KanbanBoard />} /> */}
-           
-          {/* <Route path="/workers" element={<Workers />} /> */}
-          {/* <Route path="/add-shift" component={AddShift} /> */}
-        </Routes>
+        <RoutesList />
       </BrowserRouter>
-    </ShiftProvider>
+    </RestaurantProvider>
   );
 }
 

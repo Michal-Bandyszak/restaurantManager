@@ -1,16 +1,29 @@
-import React, { useContext } from 'react';
-// import { ShiftContext } from './ShiftContext';
-import { format } from 'date-fns';
-import './KanbanBoard.css';
+import React, { useContext } from "react";
+import { RestaurantContext } from "../Context/Context";
+import { format } from "date-fns";
+import "./KanbanBoard.css";
+import { useEffect } from "react";
+import { getAllShifts } from "../API/Api";
+import {loadShifts} from "../Reducers/restaurantReducer"
 
-export function KanbanBoard() {
-  // const { shifts } = useContext(ShiftContext);
+export default function KanbanBoard() {
+  //reaading from state
+  const [{ shifts }, dispatch] = useContext(RestaurantContext);
+
+  //writing to state -> getting fetch from server and adding it to state.
+  useEffect(() => {
+    getAllShifts()
+      .then((shifts) => {
+        dispatch(loadShifts(shifts));
+      })
+      .catch();
+  }, []);
 
   // group shifts by date and sort by date
   const groupedShifts = shifts
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .reduce((acc, shift) => {
-      const date = format(new Date(shift.date), 'dd.MM.yyyy');
+      const date = format(new Date(shift.date), "dd.MM.yyyy");
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -24,13 +37,14 @@ export function KanbanBoard() {
       <div className="shifts-container">
         {Object.keys(groupedShifts).map((date) => (
           <div key={date} className="date-column">
-            <h3>{date}
+            <h3>
+              {date}
               <div className="shifts-by-date">
                 {groupedShifts[date].map((shift) => (
                   <div
                     key={shift.id}
                     className={`shift-card ${
-                      shift.available ? '' : 'not-available'
+                      shift.available ? "" : "not-available"
                     }`}
                   >
                     {shift.worker ? (
@@ -42,7 +56,9 @@ export function KanbanBoard() {
                     )}
                     {shift.available && (
                       <>
-                        <p>Time: {shift.startHour} - {shift.endHour}</p>
+                        <p>
+                          Time: {shift.startHour} - {shift.endHour}
+                        </p>
                         <p>Availability: Yes</p>
                       </>
                     )}
