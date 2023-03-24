@@ -4,9 +4,10 @@ const URL = 'http://localhost:8088';
 const restaurantAPI = axios.create({
   baseURL: URL,
   headers: {
-    'Authorisation': localStorage.getItem('restaurant-token'),
+    'Authorization': String(`Bearer ${localStorage.getItem('restaurant-token')}`),
   },
 });
+
 
 export function login(username, password) {
   const config = {
@@ -16,7 +17,6 @@ export function login(username, password) {
   return axios.get(`${URL}/login`, config)
     .then((response) => {
       localStorage.setItem('restaurant-token', response.data.token);
-      console.log(response.data)
     });
 }
 
@@ -37,6 +37,15 @@ export function login(username, password) {
 //       return token;
 //     });
 // }
+
+
+export function getAllShifts() {
+  return restaurantAPI.get(`${URL}/shift/all`)
+    .then((response) => {
+      return response.data;
+    });
+}
+
 
 export function getShiftById(token, shiftId) {
   const params = {token, shiftId};
@@ -70,12 +79,7 @@ export function deleteWorkerShift(token, shiftId, workerId) {
     });
 }
 
-export function getAllShifts() {
-  return restaurantAPI.get(`${URL}/shift/all`)
-    .then((response) => {
-      return response.data;
-    });
-}
+
 
 export function getAllWorkersShiftsByDates(startDate, endDate) {
   const params = {startDate, endDate};

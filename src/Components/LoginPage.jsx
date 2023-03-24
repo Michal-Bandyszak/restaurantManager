@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { RestaurantContext } from '../Context/Context';
 import { loginUser } from '../Reducers/restaurantReducer';
 import { login } from '../API/Api';
+import { useNavigate } from 'react-router-dom';
+
 
 const URL = 'http://localhost:8088';
 
@@ -9,11 +11,16 @@ const LoginPage = () => {
   const [, dispatch] = useContext(RestaurantContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
    const handleSubmit = (e) => {
     e.preventDefault();
-    login(username, password).then((token) => {
+    login(username, password).then(() => {
       dispatch(loginUser(username, password));
+      navigate('/');
+    })
+    .catch((error) => {
+      console.error(error);
     });
   };
 
