@@ -3,17 +3,20 @@ import { RestaurantContext } from '../Context/Context';
 import { loginUser } from '../Reducers/restaurantReducer';
 import { login } from '../API/Api';
 
+const URL = 'http://localhost:8088';
+
 const LoginPage = () => {
   const [, dispatch] = useContext(RestaurantContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+   const handleSubmit = (e) => {
     e.preventDefault();
-    login().then((token) => {
+    login(username, password).then((token) => {
       dispatch(loginUser(username, password));
     });
   };
+
 
   return (
     <>

@@ -8,15 +8,35 @@ const restaurantAPI = axios.create({
   },
 });
 
-
 export function login(username, password) {
-  const params = {username, password};
-  return axios.post(`${URL}/login`, params)
-    .then((token) => {
-      localStorage.setItem('restaurant-token', token);
-      return token;
+  const config = {
+    params: {username, password}
+  };
+  
+  return axios.get(`${URL}/login`, config)
+    .then((response) => {
+      localStorage.setItem('restaurant-token', response.data.token);
+      console.log(response.data)
     });
 }
+
+// export function login(username, password) {
+//   console.log(username, password)
+//   const queryParams = new URLSearchParams({
+//     username: username,
+//     password: password,
+//   });
+  
+
+// export function login(username, password) {
+//   const params = {username, password};
+  
+//   return axios.get(`${URL}/login`, params)
+//     .then((token) => {
+//       localStorage.setItem('restaurant-token', token);
+//       return token;
+//     });
+// }
 
 export function getShiftById(token, shiftId) {
   const params = {token, shiftId};

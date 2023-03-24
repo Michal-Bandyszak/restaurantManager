@@ -6,7 +6,6 @@ export const initialRestaurantState = {
 
 const  ADD_WORKER = '[WORKER] Add Worker';
 const LOGIN_USER = '[User] Login';
-const LOGOUT_USER = '[User] Logout';
 const LOAD_SHIFTS = '[Shifts] Load Shifts'
 
 export const loginUser = (username, password) => ({
@@ -14,7 +13,7 @@ export const loginUser = (username, password) => ({
   payload: { username, password },
 });
 
-
+console.log(initialRestaurantState.user)
 
 export const addWorker = (worker) => ({
   type: ADD_WORKER,
@@ -53,14 +52,5 @@ export const workerReducer = (state = initialRestaurantState, action) => {
           ...action.payload.shifts
         ]
       }
-      case LOGIN_USER:
-        return {
-          ...state,
-          user: {
-            username: action.payload.username,
-            password: action.payload.password,
-          },
-        };
-      
   }
 }
