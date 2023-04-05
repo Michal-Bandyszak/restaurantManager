@@ -5,25 +5,32 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { addShift } from '../../API/Api';
 
+
 export default function AddNewShiftModal() {
   const [newShift, setNewShift] = useState({
-      startHour: 12,
-      endHour: 14,
-      date: 1680459207000,
+      startHour: '',
+      endHour: '',
+      date: '',
       isAvaliable: true,
-      workerId: 2  
+      workerId: ''  
   });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addShift(newShift)
+    const dateTimestamp = new Date(newShift.date).getTime();
+    const shiftData = {
+      ...newShift,
+      date: dateTimestamp
+    };
+    console.log(shiftData)
+    addShift(shiftData);
   };
 
   const handleInputChange =  (event) => {
-    const {name, value} = event.target;
+    const {id, value} = event.target;
     setNewShift((prevShift) => ({
       ...prevShift,
-      [name]: value
+      [id]: id === "date" ? value : value.trim()
     }));
   };
 
@@ -37,7 +44,7 @@ export default function AddNewShiftModal() {
   return (
     <>
       <h1>New Shift</h1>
-  
+      <form onSubmit={handleSubmit}>
         <Box
         component="form"
         onSubmit={handleSubmit}
@@ -53,31 +60,31 @@ export default function AddNewShiftModal() {
             id="date"
             label="Enter date"
             placeholder="Enter date"
-            value={new Date(newShift.date).toISOString().slice(0, 10)}
+            value={newShift.date}
             onChange={handleInputChange}
-            type="date"
           />
           <TextField
             required
             id="startHour"
-            label="Required"
+            label="Enter start hour"
             placeholder="Enter start hour"
-            value={newShift.endHour}
+            value={newShift.startHour}
             onChange={handleInputChange}
           />
           <TextField
             required
             id="endHour"
-            label="Required"
-            placeholder="Enter start hour"
+            label="Enter end hour"
+            placeholder="Enter end hour"
             value={newShift.endHour}
             onChange={handleInputChange}
           />
           <TextField
             required
             id="workerId"
-            label="Required"
+            label="Worker ID"
             placeholder="worker ID"
+            type="number"
             value={newShift.workerId}
             onChange={handleInputChange}
 
@@ -92,16 +99,17 @@ export default function AddNewShiftModal() {
             value={newShift.isAvaliable ? 'true' : 'false'}
             onChange={handleIsAvaliableChange}
           >
-            <MenuItem>
+            <MenuItem key="true" value="true">
               true
             </MenuItem>
-            <MenuItem >
+            <MenuItem key="false" value="false" >
               false
             </MenuItem>
           </TextField> 
         </div>
       </Box>
-    <button type="submit">Add shift</button>
-    </>
+      <button type="submit">Add shift</button>
+    </form>
+  </>
   );
 }
