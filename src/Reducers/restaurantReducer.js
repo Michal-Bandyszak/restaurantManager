@@ -5,20 +5,24 @@ export const initialRestaurantState = {
 
 
 const  ADD_WORKER = '[WORKER] Add Worker';
-const LOGIN_USER = '[User] Login';
-const LOAD_SHIFTS = '[Shifts] Load Shifts'
+const LOGIN_USER = '[USER] Login';
+const LOAD_SHIFTS = '[SHIFTS] Load Shifts'
+const DELETE_SHIFT = '[SHIFT] Delete Shift'
 
 export const loginUser = (username, password) => ({
   type: LOGIN_USER,
   payload: { username, password },
 });
 
-console.log(initialRestaurantState.user)
-
 export const addWorker = (worker) => ({
   type: ADD_WORKER,
   payload: { worker },
 });
+
+export const deleteWorkerShift = (shift) => ({
+  type: DELETE_SHIFT,
+  payload: {shift}
+})
 
 export const loadShifts = (shifts) => ({
   type: LOAD_SHIFTS,
@@ -26,10 +30,10 @@ export const loadShifts = (shifts) => ({
 })
 
 export const workerReducer = (state = initialRestaurantState, action) => {
-  console.group('New Action');
-  console.log('Type:', action.type);
-  console.log('Payload:', action.payload);
-  console.groupEnd('New Action');
+  // console.group('New Action');
+  // console.log('Type:', action.type);
+  // console.log('Payload:', action.payload);
+  // console.groupEnd('New Action');
 
   switch (action.type) {
     case ADD_WORKER:
@@ -52,5 +56,12 @@ export const workerReducer = (state = initialRestaurantState, action) => {
           ...action.payload.shifts
         ]
       }
+      case DELETE_SHIFT:
+        return {
+          ...state,
+          shifts: state.shifts.filter((shift) => shift.shiftId !== action.payload.shift.shiftId)
+        }
+      default:
+        return state;
   }
 }

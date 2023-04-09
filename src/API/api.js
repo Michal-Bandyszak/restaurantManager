@@ -14,8 +14,8 @@ export function getAllShifts() {
     .then((response) => {
       return response.data;
     });
-  // return Promise.resolve([
-  //   {
+
+
   //     "id": 1,
   //     "worker": {
   //       "id": 1,
@@ -99,9 +99,9 @@ export function getShiftById(token, shiftId) {
     });
 }
 
-export function addShift(token, date, startHour, endHour, isAvailable, workerId) {
-  const params = {token, date, startHour, endHour, isAvailable, workerId};
-  return restaurantAPI.post(`${URL}/shift`, {params})
+export function addShift(shiftData) {
+
+  return restaurantAPI.post(`${URL}/shift`, shiftData)
     .then((response) => {
       return response.data;
     });
@@ -115,13 +115,17 @@ export function updateWorkerShift(token, startHour, endHour, isAvailable, shiftI
     });
 }
 
-export function deleteWorkerShift(token, shiftId, workerId) {
-  const data = {shiftId, workerId};
+export function deleteWorkerShift(shiftId) {
+  console.log(shiftId)
   return restaurantAPI.delete(`${URL}/shift/${shiftId}`)
-    .then((response) => {
+    .then(response => {
+      console.log(response);
       return response.data;
+    })
+    .catch(error => {
+      console.log(error);
     });
-}
+};
 
 
 
