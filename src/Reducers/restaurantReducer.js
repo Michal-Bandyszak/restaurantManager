@@ -56,11 +56,12 @@ export const workerReducer = (state = initialRestaurantState, action) => {
           ...action.payload.shifts
         ]
       }
-      case DELETE_SHIFT:
+      case "DELETE_SHIFT":
         return {
           ...state,
-          shifts: state.shifts.filter((shift) => shift.shiftId !== action.payload.shift.shiftId)
-        }
+          shifts: state.shifts.filter((shift) => shift.id !== action.payload.id),
+        };
+
       default:
         return state;
   }

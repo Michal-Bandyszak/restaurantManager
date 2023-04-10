@@ -24,6 +24,7 @@ export default function AddNewShiftModal() {
       date: dateTimestamp
     };
     addShift(shiftData);
+
   };
 
   const handleInputChange = (event) => {
@@ -31,6 +32,7 @@ export default function AddNewShiftModal() {
   
     if (name === 'date') {
       value = new Date(value).getTime();
+
     }
   
     setNewShift({

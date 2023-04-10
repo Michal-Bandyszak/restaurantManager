@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { RestaurantContext } from "../../Context/Context";
-import { deleteWorkerShift } from "../../API/Api";
+import { deleteWorkerShift, getAllShifts } from "../../API/Api";
 
 export default function DeleteShiftModal({ shift, onClose }) {
   const [, dispatch] = useContext(RestaurantContext);
@@ -13,8 +13,9 @@ export default function DeleteShiftModal({ shift, onClose }) {
     } catch (error) {
       console.error(error);
     }
+    
   };
-  
+
 
   return (
     <div>
