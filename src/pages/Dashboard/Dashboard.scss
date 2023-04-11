@@ -1,0 +1,27 @@
+.dashboard-header {
+  background-color: #8bc7f9;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .data-type button {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: transparent !important;
+    text-transform: none;
+
+    &.active {
+      background-color: #c2c2c2;
+    }
+  }
+
+  .add-shift {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    background-color: #ffffff;
+    color: #000000;
+    text-transform: none;
+  }
+}

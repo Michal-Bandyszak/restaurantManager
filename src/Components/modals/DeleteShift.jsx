@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { RestaurantContext } from "../../Context/Context";
-import { deleteWorkerShift } from "../../API/Api";
+import React, { useContext } from 'react';
+import { RestaurantContext } from '../../Context/Context';
+import { deleteWorkerShift } from '../../API/api';
 
 export default function DeleteShiftModal({ shift, onClose }) {
   const [, dispatch] = useContext(RestaurantContext);
@@ -8,13 +8,12 @@ export default function DeleteShiftModal({ shift, onClose }) {
   const handleDelete = async () => {
     try {
       await deleteWorkerShift(shift);
-      dispatch({ type: "DELETE_SHIFT", payload: shift });
+      dispatch({ type: 'DELETE_SHIFT', payload: shift });
       onClose();
     } catch (error) {
       console.error(error);
     }
   };
-  
 
   return (
     <div>
@@ -23,10 +22,12 @@ export default function DeleteShiftModal({ shift, onClose }) {
       <p>
         {shift.worker
           ? `Worker: ${shift.worker.name} ${shift.worker.surname}`
-          : "Worker: Not Available"}
+          : 'Worker: Not Available'}
       </p>
-      <p>Time: {shift.startHour} - {shift.endHour}</p>
-      <p>Availability: {shift.available ? "Yes" : "No"}</p>
+      <p>
+        Time: {shift.startHour} - {shift.endHour}
+      </p>
+      <p>Availability: {shift.available ? 'Yes' : 'No'}</p>
       <button onClick={handleDelete}>Delete</button>
       <button onClick={onClose}>Cancel</button>
     </div>

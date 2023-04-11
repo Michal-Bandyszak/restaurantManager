@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import { addShift } from '../../API/Api';
+import { addShift } from '../../API/api';
 
 export default function AddNewShiftModal() {
   const [newShift, setNewShift] = useState({
@@ -12,43 +12,39 @@ export default function AddNewShiftModal() {
     endHour: '',
     date: '',
     isAvailable: true,
-    workerId: 0 
+    workerId: 0,
   });
-  
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const dateTimestamp = new Date(newShift.date).getTime();
     const shiftData = {
       ...newShift,
-      date: dateTimestamp
+      date: dateTimestamp,
     };
     addShift(shiftData);
   };
 
   const handleInputChange = (event) => {
     let { name, value } = event.target;
-  
+
     if (name === 'date') {
       value = new Date(value).getTime();
     }
-  
+
     setNewShift({
       ...newShift,
       [name]: Number(value),
     });
   };
-  
 
   const handleIsAvailableChange = (event) => {
-    
     setNewShift({
       ...newShift,
-      isAvailable: event.target.checked
+      isAvailable: event.target.checked,
     });
-  }
+  };
 
-  
   return (
     <>
       <h1>New Shift</h1>
@@ -64,7 +60,11 @@ export default function AddNewShiftModal() {
         <TextField
           required
           name="date"
-          value={newShift.date ? new Date(newShift.date).toISOString().substring(0, 10) : ''}
+          value={
+            newShift.date
+              ? new Date(newShift.date).toISOString().substring(0, 10)
+              : ''
+          }
           onChange={handleInputChange}
           type="date"
         />
