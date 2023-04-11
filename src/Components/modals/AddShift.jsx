@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import { addShift } from '../../API/Api';
+import { RestaurantContext } from '../../Context/Context';
+import { addNewShift, loadShifts } from '../../Reducers/restaurantReducer';
 
 export default function AddNewShiftModal() {
   const [newShift, setNewShift] = useState({
@@ -14,17 +16,26 @@ export default function AddNewShiftModal() {
     isAvailable: true,
     workerId: 0 
   });
-  
+  const [state, dispatch] = useContext(RestaurantContext);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const dateTimestamp = new Date(newShift.date).getTime();
     const shiftData = {
       ...newShift,
       date: dateTimestamp
     };
-    addShift(shiftData);
-
+    const response = await addShift(shiftData);
+    const { data } = response;
+    dispatch({ type: addNewShift, payload: data });
+    setNewShift({
+      startHour: '',
+      endHour: '',
+      date: '',
+      isAvailable: true,
+      workerId: 0 
+    });
+    dispatch(loadShifts([...state.shifts, data]));
   };
 
   const handleInputChange = (event) => {
@@ -32,7 +43,6 @@ export default function AddNewShiftModal() {
   
     if (name === 'date') {
       value = new Date(value).getTime();
-
     }
   
     setNewShift({
@@ -41,16 +51,13 @@ export default function AddNewShiftModal() {
     });
   };
   
-
   const handleIsAvailableChange = (event) => {
-    
     setNewShift({
       ...newShift,
       isAvailable: event.target.checked
     });
   }
 
-  
   return (
     <>
       <h1>New Shift</h1>

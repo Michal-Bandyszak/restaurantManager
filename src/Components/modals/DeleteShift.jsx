@@ -8,12 +8,11 @@ export default function DeleteShiftModal({ shift, onClose }) {
   const handleDelete = async () => {
     try {
       await deleteWorkerShift(shift);
-      dispatch({ type: "DELETE_SHIFT", payload: shift });
+      dispatch(deleteWorkerShift(shift));
       onClose();
     } catch (error) {
       console.error(error);
     }
-    
   };
 
 

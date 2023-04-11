@@ -138,7 +138,7 @@ export function getAllWorkersShiftsByDates(startDate, endDate) {
 }
 
 export function getWorkerShift(startDate, endDate, workerId) {
-  const params = {startDate, endDate, workerId};
+  const params = { startDate, endDate, workerId};
   return restaurantAPI.get(`${URL}/shift/worker`, {params})
     .then((response) => {
       return response.data;
