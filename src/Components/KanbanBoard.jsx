@@ -1,23 +1,23 @@
-import React, { useContext, useState } from "react";
-import { RestaurantContext } from "../Context/Context";
-import { format } from "date-fns";
-import "./KanbanBoard.css";
-import { useEffect } from "react";
-import { getAllShifts } from "../API/Api";
-import {loadShifts} from "../Reducers/restaurantReducer"
+import React, { useContext, useState } from 'react';
+import { RestaurantContext } from '../Context/Context';
+import { format } from 'date-fns';
+import './KanbanBoard.css';
+import { useEffect } from 'react';
+import { getAllShifts } from '../API/api';
+import { loadShifts } from '../Reducers/restaurantReducer';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import RestaurantDialog from './UI/Dialog';
 import AddNewShiftModal from './modals/AddShift';
 import UpdateShiftModal from './modals/UpdateShift';
-import DeleteShiftModal from "./modals/DeleteShift";
+import DeleteShiftModal from './modals/DeleteShift';
 
 export default function KanbanBoard() {
   //reading from state
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
-  const [deleteOpen, setDeleteOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedShift, setSelectedShift] = useState(null);
   const [state, dispatch] = useContext(RestaurantContext);
   const { shifts } = state;
@@ -32,50 +32,46 @@ export default function KanbanBoard() {
       .catch();
   }, [dispatch]);
 
-
-
   // group shifts by date and sort by date
   const groupedShifts = shifts
-  .sort((a, b) => new Date(a.date) - new Date(b.date))
-  .reduce((acc, shift) => {
-    const date = format(new Date(Date.parse(shift.date)), "dd.MM.yyyy");
-    if (!acc[date]) {
-      acc[date] = [];
-    }
-    acc[date].push(shift);
-    return acc;
-  }, {});
-
-    
-    function handleClickOpen() {
-      setOpen(true);
-    }
-
-    function handleClickUpdateOpen() {
-      setUpdateOpen(true);
-    }
-
-    function handleClickUpdateClose() {
-      setUpdateOpen(false);
-    }
-
-    function handleClickDeleteClose() {
-      setDeleteOpen(false);
-    }
-
-    const handleClose = (newShift) => {
-      setOpen(false);
-      if (newShift) {
-        dispatch({ type: "ADD_SHIFT", payload: newShift });
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .reduce((acc, shift) => {
+      const date = format(new Date(Date.parse(shift.date)), 'dd.MM.yyyy');
+      if (!acc[date]) {
+        acc[date] = [];
       }
-      setShiftsChanged(shiftsChanged + 1); // increment shiftsChanged to trigger a re-render
-    };
+      acc[date].push(shift);
+      return acc;
+    }, {});
 
-    function handleClickDeleteOpen(shift) {
-      setSelectedShift(shift);
-      setDeleteOpen(true);
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClickUpdateOpen() {
+    setUpdateOpen(true);
+  }
+
+  function handleClickUpdateClose() {
+    setUpdateOpen(false);
+  }
+
+  function handleClickDeleteClose() {
+    setDeleteOpen(false);
+  }
+
+  const handleClose = (newShift) => {
+    setOpen(false);
+    if (newShift) {
+      dispatch({ type: 'ADD_SHIFT', payload: newShift });
     }
-    
+    setShiftsChanged(shiftsChanged + 1); // increment shiftsChanged to trigger a re-render
+  };
+
+  function handleClickDeleteOpen(shift) {
+    setSelectedShift(shift);
+    setDeleteOpen(true);
+  }
 
   return (
     <div className="kanban-board">
@@ -91,7 +87,7 @@ export default function KanbanBoard() {
                   <div
                     key={shift.id}
                     className={`shift-card ${
-                      shift.available ? "" : "not-available"
+                      shift.available ? '' : 'not-available'
                     }`}
                   >
                     {shift.worker ? (
@@ -111,12 +107,12 @@ export default function KanbanBoard() {
                     )}
                     {!shift.available && <p>Availability: No</p>}
                     <Button
-                        variant="contained"
-                        color="secondary"
-                        startIcon={<DeleteIcon />}
-                        onClick={() => handleClickDeleteOpen(shift.id)}
-                      >
-                        Delete
+                      variant="contained"
+                      color="secondary"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => handleClickDeleteOpen(shift.id)}
+                    >
+                      Delete
                     </Button>
                   </div>
                 ))}
@@ -125,30 +121,25 @@ export default function KanbanBoard() {
           </div>
         ))}
       </div>
-  
-    <Button variant="outlined" onClick={handleClickOpen}>
-      Open simple dialog
-    </Button>
 
-    <RestaurantDialog
-        open={open}
-        onClose={handleClose}>
-          <AddNewShiftModal />
-    </RestaurantDialog>
+      <Button variant="outlined" onClick={handleClickOpen}>
+        Open simple dialog
+      </Button>
 
-    <RestaurantDialog
-      open={deleteOpen}
-      onClose={handleClickDeleteClose}>
-      <DeleteShiftModal shift={selectedShift} onClose={handleClickDeleteClose} />
-    </RestaurantDialog>
+      <RestaurantDialog open={open} onClose={handleClose}>
+        <AddNewShiftModal />
+      </RestaurantDialog>
 
-      
-    <RestaurantDialog
-        open={updateOpen}
-        onClose={handleClickUpdateClose}>
-          <UpdateShiftModal />
-    </RestaurantDialog>
+      <RestaurantDialog open={deleteOpen} onClose={handleClickDeleteClose}>
+        <DeleteShiftModal
+          shift={selectedShift}
+          onClose={handleClickDeleteClose}
+        />
+      </RestaurantDialog>
 
+      <RestaurantDialog open={updateOpen} onClose={handleClickUpdateClose}>
+        <UpdateShiftModal />
+      </RestaurantDialog>
     </div>
   );
 }

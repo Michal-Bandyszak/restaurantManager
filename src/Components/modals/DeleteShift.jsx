@@ -1,6 +1,6 @@
-import React, { useContext } from "react";
-import { RestaurantContext } from "../../Context/Context";
-import { deleteWorkerShift, getAllShifts } from "../../API/Api";
+import React, { useContext } from 'react';
+import { RestaurantContext } from '../../Context/Context';
+import { deleteWorkerShift, getAllShifts } from '../../API/api';
 
 export default function DeleteShiftModal({ shift, onClose }) {
   const [, dispatch] = useContext(RestaurantContext);
@@ -15,7 +15,6 @@ export default function DeleteShiftModal({ shift, onClose }) {
     }
   };
 
-
   return (
     <div>
       <h2>Delete Shift</h2>
@@ -23,10 +22,12 @@ export default function DeleteShiftModal({ shift, onClose }) {
       <p>
         {shift.worker
           ? `Worker: ${shift.worker.name} ${shift.worker.surname}`
-          : "Worker: Not Available"}
+          : 'Worker: Not Available'}
       </p>
-      <p>Time: {shift.startHour} - {shift.endHour}</p>
-      <p>Availability: {shift.available ? "Yes" : "No"}</p>
+      <p>
+        Time: {shift.startHour} - {shift.endHour}
+      </p>
+      <p>Availability: {shift.available ? 'Yes' : 'No'}</p>
       <button onClick={handleDelete}>Delete</button>
       <button onClick={onClose}>Cancel</button>
     </div>

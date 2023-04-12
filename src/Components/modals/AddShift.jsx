@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-import { addShift } from '../../API/Api';
+import { addShift } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
 import { addNewShift, loadShifts } from '../../Reducers/restaurantReducer';
 
@@ -14,7 +14,7 @@ export default function AddNewShiftModal() {
     endHour: '',
     date: '',
     isAvailable: true,
-    workerId: 0 
+    workerId: 0,
   });
   const [state, dispatch] = useContext(RestaurantContext);
 
@@ -23,7 +23,7 @@ export default function AddNewShiftModal() {
     const dateTimestamp = new Date(newShift.date).getTime();
     const shiftData = {
       ...newShift,
-      date: dateTimestamp
+      date: dateTimestamp,
     };
     const response = await addShift(shiftData);
     const { data } = response;
@@ -33,30 +33,30 @@ export default function AddNewShiftModal() {
       endHour: '',
       date: '',
       isAvailable: true,
-      workerId: 0 
+      workerId: 0,
     });
     dispatch(loadShifts([...state.shifts, data]));
   };
 
   const handleInputChange = (event) => {
     let { name, value } = event.target;
-  
+
     if (name === 'date') {
       value = new Date(value).getTime();
     }
-  
+
     setNewShift({
       ...newShift,
       [name]: Number(value),
     });
   };
-  
+
   const handleIsAvailableChange = (event) => {
     setNewShift({
       ...newShift,
-      isAvailable: event.target.checked
+      isAvailable: event.target.checked,
     });
-  }
+  };
 
   return (
     <>
@@ -73,7 +73,11 @@ export default function AddNewShiftModal() {
         <TextField
           required
           name="date"
-          value={newShift.date ? new Date(newShift.date).toISOString().substring(0, 10) : ''}
+          value={
+            newShift.date
+              ? new Date(newShift.date).toISOString().substring(0, 10)
+              : ''
+          }
           onChange={handleInputChange}
           type="date"
         />
