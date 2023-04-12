@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { RestaurantContext } from '../../Context/Context';
-import { deleteWorkerShift } from '../../API/api';
+import { deleteWorkerShift, getAllShifts } from '../../API/api';
 
 export default function DeleteShiftModal({ shift, onClose }) {
   const [, dispatch] = useContext(RestaurantContext);
@@ -8,7 +8,7 @@ export default function DeleteShiftModal({ shift, onClose }) {
   const handleDelete = async () => {
     try {
       await deleteWorkerShift(shift);
-      dispatch({ type: 'DELETE_SHIFT', payload: shift });
+      dispatch(deleteWorkerShift(shift));
       onClose();
     } catch (error) {
       console.error(error);

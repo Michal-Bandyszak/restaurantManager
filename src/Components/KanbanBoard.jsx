@@ -14,13 +14,14 @@ import UpdateShiftModal from './modals/UpdateShift';
 import DeleteShiftModal from './modals/DeleteShift';
 
 export default function KanbanBoard() {
-  //reaading from state
+  //reading from state
   const [open, setOpen] = useState(false);
   const [updateOpen, setUpdateOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [selectedShift, setSelectedShift] = useState(null);
   const [state, dispatch] = useContext(RestaurantContext);
   const { shifts } = state;
+  const [shiftsChanged, setShiftsChanged] = useState(0);
 
   //writing to state -> getting fetch from server and adding it to state.
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function KanbanBoard() {
   const groupedShifts = shifts
     .sort((a, b) => new Date(a.date) - new Date(b.date))
     .reduce((acc, shift) => {
-      const date = format(new Date(shift.date), 'dd.MM.yyyy');
+      const date = format(new Date(Date.parse(shift.date)), 'dd.MM.yyyy');
       if (!acc[date]) {
         acc[date] = [];
       }
@@ -59,8 +60,12 @@ export default function KanbanBoard() {
     setDeleteOpen(false);
   }
 
-  const handleClose = (value) => {
+  const handleClose = (newShift) => {
     setOpen(false);
+    if (newShift) {
+      dispatch({ type: 'ADD_SHIFT', payload: newShift });
+    }
+    setShiftsChanged(shiftsChanged + 1); // increment shiftsChanged to trigger a re-render
   };
 
   function handleClickDeleteOpen(shift) {
