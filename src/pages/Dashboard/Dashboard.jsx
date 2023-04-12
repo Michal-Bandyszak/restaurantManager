@@ -8,10 +8,22 @@ import { dayOfWeek } from '../../data/dayOfWeek';
 import { getAllShifts } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
 import { loadShifts } from '../../Reducers/restaurantReducer';
+import RestaurantDialog from '../../Components/UI/Dialog';
+import AddNewShiftModal from '../../Components/modals/AddShift';
 
 export default function Dashboard() {
   const [, dispatch] = useContext(RestaurantContext);
   const [isShiftsActive, setIsShiftsActive] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [shiftsChanged, setShiftsChanged] = useState(0);
+
+  const handleClose = (newShift) => {
+    setOpen(false);
+    if (newShift) {
+      dispatch({ type: 'ADD_SHIFT', payload: newShift });
+    }
+    setShiftsChanged(shiftsChanged + 1); // increment shiftsChanged to trigger a re-render
+  };
 
   useEffect(() => {
     getAllShifts()
@@ -38,7 +50,11 @@ export default function Dashboard() {
             Workers
           </Button>
         </ButtonGroup>
-        <Button className="add-shift" variant="contained">
+        <Button
+          onClick={() => setOpen(true)}
+          className="add-shift"
+          variant="contained"
+        >
           Add shift
         </Button>
       </div>
@@ -52,6 +68,9 @@ export default function Dashboard() {
           <RestaurantTable />
         )}
       </div>
+      <RestaurantDialog open={open} onClose={handleClose}>
+        <AddNewShiftModal />
+      </RestaurantDialog>
     </div>
   );
 }
