@@ -1,5 +1,6 @@
 import React from 'react';
 import './Carousel.scss';
+import DayShift from '../../DayShift';
 
 export default function RestaurantCarousel({ firstStepArr, secondStepArr }) {
   return (
@@ -27,7 +28,7 @@ export default function RestaurantCarousel({ firstStepArr, secondStepArr }) {
             <div className="carousel-item active">
               <div className="row">
                 {firstStepArr.map(({ id, day, date, component: Component }) => (
-                  <Component key={id} day={day} date={date} />
+                  <DayShift key={id} day={day} date={date} />
                 ))}
               </div>
             </div>
@@ -35,7 +36,7 @@ export default function RestaurantCarousel({ firstStepArr, secondStepArr }) {
               <div className="row">
                 {secondStepArr.map(
                   ({ id, day, date, component: Component }) => (
-                    <Component key={id} day={day} date={date} />
+                    <DayShift key={id} day={day} date={date} />
                   )
                 )}
               </div>

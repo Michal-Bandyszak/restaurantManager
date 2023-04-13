@@ -1,8 +1,16 @@
-import React from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React, { useContext } from 'react';
+import { FiTrash2, FiEdit } from 'react-icons/fi';
 import './WorkerCard.scss';
+import { RestaurantContext } from '../Context/Context';
+import {
+  selectShift,
+  toggleDeleteModal,
+  toggleUpdateModal,
+} from '../Reducers/restaurantReducer';
 
 export default function WorkerCard({ shift }) {
+  const [, dispatch] = useContext(RestaurantContext);
+
   return (
     <div
       key={shift.id}
@@ -19,6 +27,13 @@ export default function WorkerCard({ shift }) {
         <p>Availability: {shift.available ? 'Yes' : 'No'}</p>
       </div>
       <p>End hour: {shift.endHour}</p>
+      <div
+        className="action-icons"
+        onClick={() => dispatch(selectShift(shift))}
+      >
+        <FiEdit onClick={() => dispatch(toggleUpdateModal())} />
+        <FiTrash2 onClick={() => dispatch(toggleDeleteModal())} />
+      </div>
     </div>
   );
 }
