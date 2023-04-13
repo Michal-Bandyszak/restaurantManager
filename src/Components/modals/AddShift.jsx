@@ -8,7 +8,7 @@ import { addShift } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
 import { addNewShift, loadShifts } from '../../Reducers/restaurantReducer';
 
-export default function AddNewShiftModal() {
+export default function AddNewShiftModal({ handleClose }) {
   const [newShift, setNewShift] = useState({
     startHour: '',
     endHour: '',
@@ -25,9 +25,24 @@ export default function AddNewShiftModal() {
       ...newShift,
       date: dateTimestamp,
     };
-    const response = await addShift(shiftData);
-    const { data } = response;
-    dispatch({ type: addNewShift, payload: data });
+    let { data } = await addShift(shiftData);
+    // @TODO should be removed and returned by server
+    data = {
+      "id":50,
+      "worker": {
+        "id":1,
+        "username":"username1",
+        "name":"name1",
+        "surname":"surname1",
+        "workerLevel":"ADMIN"
+      },
+      "date":"2023-04-15T22:00:00.000+00:00",
+      "startHour":1,
+      "endHour":1,
+      "available":true
+    };
+    console.log(data);
+    dispatch(addNewShift(data));
     setNewShift({
       startHour: '',
       endHour: '',
@@ -35,7 +50,7 @@ export default function AddNewShiftModal() {
       isAvailable: true,
       workerId: 0,
     });
-    dispatch(loadShifts([...state.shifts, data]));
+    handleClose();
   };
 
   const handleInputChange = (event) => {

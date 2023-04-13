@@ -15,14 +15,9 @@ export default function Dashboard() {
   const [, dispatch] = useContext(RestaurantContext);
   const [isShiftsActive, setIsShiftsActive] = useState(true);
   const [open, setOpen] = useState(false);
-  const [shiftsChanged, setShiftsChanged] = useState(0);
 
-  const handleClose = (newShift) => {
+  const handleClose = () => {
     setOpen(false);
-    if (newShift) {
-      dispatch({ type: 'ADD_SHIFT', payload: newShift });
-    }
-    setShiftsChanged(shiftsChanged + 1); // increment shiftsChanged to trigger a re-render
   };
 
   useEffect(() => {
@@ -69,7 +64,7 @@ export default function Dashboard() {
         )}
       </div>
       <RestaurantDialog open={open} onClose={handleClose}>
-        <AddNewShiftModal />
+        <AddNewShiftModal handleClose={handleClose} />
       </RestaurantDialog>
     </div>
   );
