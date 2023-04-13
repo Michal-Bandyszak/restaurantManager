@@ -12,15 +12,17 @@ import RestaurantDialog from '../../Components/UI/Dialog';
 import AddNewShiftModal from '../../Components/modals/AddShift';
 import CircularProgress from '@mui/joy/CircularProgress';
 import Box from '@mui/joy/Box';
+import DeleteShiftModal from '../../Components/modals/DeleteShift';
+import {
+  toggleDeleteModal,
+  toggleUpdateModal,
+} from '../../Reducers/restaurantReducer';
 
 export default function Dashboard() {
-  const [{ shifts }, dispatch] = useContext(RestaurantContext);
+  const [{ shifts, isDeleteModalOpened, isUpdateModalOpened }, dispatch] =
+    useContext(RestaurantContext);
   const [isShiftsActive, setIsShiftsActive] = useState(true);
   const [open, setOpen] = useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   useEffect(() => {
     getAllShifts()
@@ -82,8 +84,32 @@ export default function Dashboard() {
           <RestaurantTable />
         )}
       </div>
-      <RestaurantDialog open={open} onClose={handleClose} title="Add shift">
-        <AddNewShiftModal handleClose={handleClose} />
+
+      <RestaurantDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Add shift"
+      >
+        <AddNewShiftModal handleClose={() => setOpen(false)} />
+      </RestaurantDialog>
+
+      <RestaurantDialog
+        open={isDeleteModalOpened}
+        onClose={() => dispatch(toggleDeleteModal())}
+        title="Are you sure?"
+      >
+        <DeleteShiftModal onClose={() => dispatch(toggleDeleteModal())} />
+      </RestaurantDialog>
+
+      <RestaurantDialog
+        open={isUpdateModalOpened}
+        onClose={() => dispatch(toggleUpdateModal())}
+        title="Edit shift"
+      >
+        <AddNewShiftModal
+          handleClose={() => toggleUpdateModal()}
+          isEditModal={true}
+        />
       </RestaurantDialog>
     </div>
   );

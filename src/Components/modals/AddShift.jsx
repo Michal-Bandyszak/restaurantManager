@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Checkbox from '@mui/material/Checkbox';
@@ -8,15 +8,23 @@ import { useForm } from 'react-hook-form';
 
 import { addShift } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
-import { addNewShift, loadShifts } from '../../Reducers/restaurantReducer';
+import { addNewShift } from '../../Reducers/restaurantReducer';
 
-export default function AddNewShiftModal({ handleClose }) {
+export default function AddNewShiftModal({ handleClose, isEditModal }) {
+  const [{ shift }, dispatch] = useContext(RestaurantContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const [, dispatch] = useContext(RestaurantContext);
+  } = useForm({
+    defaultValues: {
+      date: isEditModal ? shift.date : null,
+      startHour: isEditModal ? shift.startHour : null,
+      endHour: isEditModal ? shift.endHour : null,
+      isAvailable: isEditModal ? shift.isAvailable : false,
+      workerId: isEditModal ? shift.workerId : null,
+    },
+  });
 
   async function onSubmit(formData) {
     const dateTimestamp = new Date(formData.date).getTime();
@@ -35,7 +43,7 @@ export default function AddNewShiftModal({ handleClose }) {
         surname: 'surname1',
         workerLevel: 'ADMIN',
       },
-      date: '2023-04-15T22:00:00.000+00:00',
+      date: '2022-12-29T22:00:00.000+00:00',
       startHour: 1,
       endHour: 1,
       available: true,
@@ -83,7 +91,7 @@ export default function AddNewShiftModal({ handleClose }) {
           name="endHour"
           label="End Hour"
           placeholder="Enter end hour"
-          {...register('startHour')}
+          {...register('endHour')}
           type="number"
           sx={{
             mb: 2,
@@ -106,7 +114,7 @@ export default function AddNewShiftModal({ handleClose }) {
         }}
       />
       <Button type="submit" variant="solid">
-        Add shift
+        {isEditModal ? 'Edit' : 'Add'} shift
       </Button>
     </Box>
   );
