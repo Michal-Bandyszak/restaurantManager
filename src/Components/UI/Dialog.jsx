@@ -6,7 +6,7 @@ import Dialog from '@mui/material/Dialog';
 export default function RestaurantDialog({ onClose, open, children, title }) {
   return (
     <Dialog onClose={onClose} open={open}>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle sx={{ textAlign: 'center' }}>{title}</DialogTitle>
       {children}
     </Dialog>
   );

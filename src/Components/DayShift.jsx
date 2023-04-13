@@ -15,15 +15,14 @@ export default function DayShift({ day, date }) {
         <p className="date">{date}</p>
       </div>
       <div className="shifts-container">
-        {Object.keys(groupedShifts).map((date) => (
-          <div key={date} className="date-column">
-            <div className="shifts-by-date">
-              {groupedShifts[date].map((shift) => (
+        <div key={date} className="date-column">
+          <div className="shifts-by-date">
+            {groupedShifts[date] &&
+              groupedShifts[date].map((shift) => (
                 <WorkerCard key={shift.id} shift={shift} />
               ))}
-            </div>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );

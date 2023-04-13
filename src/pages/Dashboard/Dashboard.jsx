@@ -10,19 +10,19 @@ import { RestaurantContext } from '../../Context/Context';
 import { loadShifts } from '../../Reducers/restaurantReducer';
 import RestaurantDialog from '../../Components/UI/Dialog';
 import AddNewShiftModal from '../../Components/modals/AddShift';
+import CircularProgress from '@mui/joy/CircularProgress';
+import Box from '@mui/joy/Box';
 
 export default function Dashboard() {
-  const [, dispatch] = useContext(RestaurantContext);
+  const [{ shifts }, dispatch] = useContext(RestaurantContext);
   const [isShiftsActive, setIsShiftsActive] = useState(true);
   const [open, setOpen] = useState(false);
-  const [shiftsChanged, setShiftsChanged] = useState(0);
 
   const handleClose = (newShift) => {
     setOpen(false);
     if (newShift) {
       dispatch({ type: 'ADD_SHIFT', payload: newShift });
     }
-    setShiftsChanged(shiftsChanged + 1); // increment shiftsChanged to trigger a re-render
   };
 
   useEffect(() => {
@@ -32,6 +32,23 @@ export default function Dashboard() {
       })
       .catch();
   }, [dispatch]);
+
+  if (!shifts.length) {
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 2,
+          alignItems: 'center',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+        }}
+      >
+        <CircularProgress size="lg" variant="plain" />
+      </Box>
+    );
+  }
 
   return (
     <div className="dashboard-wrapper">
@@ -68,7 +85,7 @@ export default function Dashboard() {
           <RestaurantTable />
         )}
       </div>
-      <RestaurantDialog open={open} onClose={handleClose}>
+      <RestaurantDialog open={true} onClose={handleClose} title="Add shift">
         <AddNewShiftModal />
       </RestaurantDialog>
     </div>
