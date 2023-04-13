@@ -66,7 +66,7 @@ export const workerReducer = (state = initialRestaurantState, action) => {
       case ADD_SHIFT:
         return {
           ...state,
-          shifts: [...state.shifts, action.payload]
+          shifts: [...state.shifts, action.payload.shift]
         }
 
     case LOAD_SHIFTS:

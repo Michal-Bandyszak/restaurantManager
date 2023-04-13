@@ -18,11 +18,8 @@ export default function Dashboard() {
   const [isShiftsActive, setIsShiftsActive] = useState(true);
   const [open, setOpen] = useState(false);
 
-  const handleClose = (newShift) => {
+  const handleClose = () => {
     setOpen(false);
-    if (newShift) {
-      dispatch({ type: 'ADD_SHIFT', payload: newShift });
-    }
   };
 
   useEffect(() => {
@@ -85,8 +82,8 @@ export default function Dashboard() {
           <RestaurantTable />
         )}
       </div>
-      <RestaurantDialog open={true} onClose={handleClose} title="Add shift">
-        <AddNewShiftModal />
+      <RestaurantDialog open={open} onClose={handleClose} title="Add shift">
+        <AddNewShiftModal handleClose={handleClose} />
       </RestaurantDialog>
     </div>
   );
