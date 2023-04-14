@@ -13,7 +13,7 @@ export default function DeleteShiftModal() {
 
   const handleDelete = async () => {
     try {
-      // await deleteShift(shift.id);
+      await deleteShift(shift.id);
       dispatch(deleteWorkerShift(shift.id));
       dispatch(toggleDeleteModal());
     } catch (error) {

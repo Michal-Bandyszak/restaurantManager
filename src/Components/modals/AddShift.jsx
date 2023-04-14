@@ -22,7 +22,7 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
       startHour: isEditModal ? shift.startHour : null,
       endHour: isEditModal ? shift.endHour : null,
       isAvailable: isEditModal ? shift.isAvailable : false,
-      workerId: isEditModal ? shift.workerId : null,
+      workerId: isEditModal ? shift.worker.id : null,
     },
   });
 
@@ -32,22 +32,8 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
       ...formData,
       date: dateTimestamp,
     };
-    // let { data } = await addShift(shiftData);
-    // @TODO should be removed and returned by server
-    const data = {
-      id: 50,
-      worker: {
-        id: 1,
-        username: 'username1',
-        name: 'name1',
-        surname: 'surname1',
-        workerLevel: 'ADMIN',
-      },
-      date: '2022-12-29T22:00:00.000+00:00',
-      startHour: 1,
-      endHour: 1,
-      available: true,
-    };
+    let data  = await addShift(shiftData);
+    
     dispatch(addNewShift(data));
     handleClose();
   }

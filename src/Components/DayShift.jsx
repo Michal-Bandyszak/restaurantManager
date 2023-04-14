@@ -7,7 +7,6 @@ import WorkerCard from './WorkerCard';
 export default function DayShift({ day, date }) {
   const [{ shifts }] = useContext(RestaurantContext);
   const groupedShifts = useMemo(() => groupeShifts(shifts), [shifts]);
-
   return (
     <div className="col-12 col-md day-shift">
       <div className="week-day">

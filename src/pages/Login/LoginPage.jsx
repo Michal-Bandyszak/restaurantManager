@@ -22,8 +22,8 @@ const LoginPage = () => {
 
   function onSubmit({ username, password }) {
     login(username, password)
-      .then(() => {
-        dispatch(loginUser(username, password));
+      .then((user) => {
+        dispatch(loginUser(user));
         navigate('/');
       })
       .catch((error) => {

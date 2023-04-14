@@ -5,9 +5,9 @@ import Button from '@mui/material/Button';
 import RestaurantCarousel from '../../Components/UI/Carousel/Carousel';
 import RestaurantTable from '../../Components/UI/Table';
 import { dayOfWeek } from '../../data/dayOfWeek';
-import { getAllShifts } from '../../API/api';
+import { getAllShifts, getWorkers, getWorkerShift } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
-import { loadShifts } from '../../Reducers/restaurantReducer';
+import { getAllWorkers, loadShifts, loginUser } from '../../Reducers/restaurantReducer';
 import RestaurantDialog from '../../Components/UI/Dialog';
 import AddNewShiftModal from '../../Components/modals/AddShift';
 import CircularProgress from '@mui/joy/CircularProgress';
@@ -19,18 +19,36 @@ import {
 } from '../../Reducers/restaurantReducer';
 
 export default function Dashboard() {
-  const [{ shifts, isDeleteModalOpened, isUpdateModalOpened }, dispatch] =
+  const [{ shifts, isDeleteModalOpened, isUpdateModalOpened, user, workers }, dispatch] =
     useContext(RestaurantContext);
   const [isShiftsActive, setIsShiftsActive] = useState(true);
   const [open, setOpen] = useState(false);
+  console.log(workers);
 
   useEffect(() => {
-    getAllShifts()
+    let user = JSON.parse(localStorage.getItem('user'));
+    dispatch(loginUser(user));
+    getWorkers()
+    .then((workers) => {
+      dispatch(getAllWorkers(workers))
+    })
+  }, [dispatch]);
+
+  useEffect(() => {
+    if(user && user.workerLevel === "ADMIN") {
+      getAllShifts()
       .then((shifts) => {
         dispatch(loadShifts(shifts));
       })
       .catch();
-  }, [dispatch]);
+    } else if(user && user.workerLevel === "WORKER") {
+      getWorkerShift(user.id)
+      .then((shifts) => {
+        dispatch(loadShifts(shifts));
+      })
+      .catch();
+    }
+  }, [user]);
 
   if (!shifts.length) {
     return (

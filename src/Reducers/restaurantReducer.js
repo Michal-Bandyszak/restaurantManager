@@ -16,13 +16,16 @@ const SELECT_SHIFT = '[SHIFT] Select Shift';
 
 const ADD_WORKER = '[WORKER] Add Worker';
 const DELETE_WORKER = '[WORKER] Delete Worker';
+const GET_WORKERS = '[WORKER] Get All Workers';
 
 const TOGGLE_DELECT_MODAL = '[MODAL] Toggle Delete Modal';
 const TOGGLE_UPDATE_MODAL = '[MODAL] Toggle Update Modal';
 
-export const loginUser = (username, password) => ({
+//add logic to keep the info if user is admin or not
+
+export const loginUser = (user) => ({
   type: LOGIN_USER,
-  payload: { username, password },
+  payload: { user },
 });
 
 export const addNewShift = (shift) => ({
@@ -38,6 +41,11 @@ export const addWorker = (worker) => ({
 export const deleteWorker = (workerId) => ({
   type: DELETE_WORKER,
   payload: { workerId },
+});
+
+export const getAllWorkers = (workers) => ({
+  type: GET_WORKERS,
+  payload: { workers },
 });
 
 export const deleteWorkerShift = (shiftId) => ({
@@ -76,8 +84,7 @@ export const workerReducer = (state = initialRestaurantState, action) => {
       return {
         ...state,
         user: {
-          username: action.payload.username,
-          password: action.payload.password,
+          ...action.payload.user
         },
       };
 
@@ -107,6 +114,12 @@ export const workerReducer = (state = initialRestaurantState, action) => {
         workers: state.workers.filter(
           (worker) => worker.id !== action.payload.workerId
         ),
+      };
+
+    case GET_WORKERS:
+      return {
+        ...state,
+        workers: [...action.payload.workers ]
       };
 
     case SELECT_SHIFT:
