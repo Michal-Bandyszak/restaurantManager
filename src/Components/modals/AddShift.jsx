@@ -6,9 +6,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/joy/Button';
 import { useForm } from 'react-hook-form';
 
-import { addShift } from '../../API/api';
+import { addShift, updateWorkerShift } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
-import { addNewShift } from '../../Reducers/restaurantReducer';
+import { addNewShift, updateShift } from '../../Reducers/restaurantReducer';
 
 export default function AddNewShiftModal({ handleClose, isEditModal }) {
   const [{ shift }, dispatch] = useContext(RestaurantContext);
@@ -18,7 +18,7 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      date: isEditModal ? shift.date : null,
+      date: isEditModal ? new Date(shift.date).getTime() : null,
       startHour: isEditModal ? shift.startHour : null,
       endHour: isEditModal ? shift.endHour : null,
       isAvailable: isEditModal ? shift.isAvailable : false,
@@ -28,13 +28,22 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
 
   async function onSubmit(formData) {
     const dateTimestamp = new Date(formData.date).getTime();
-    const shiftData = {
-      ...formData,
-      date: dateTimestamp,
-    };
-    let data  = await addShift(shiftData);
-    
-    dispatch(addNewShift(data));
+    if (isEditModal) {
+      const shiftData = {
+        ...shift,
+        ...formData,
+        date: dateTimestamp,
+      };
+      const data = await updateWorkerShift(shiftData);
+      dispatch(updateShift(data));
+    } else {
+      const shiftData = {
+        ...formData,
+        date: dateTimestamp,
+      };
+      const data = await addShift(shiftData);
+      dispatch(addNewShift(data));
+    }
     handleClose();
   }
 
