@@ -5,6 +5,7 @@ export const initialRestaurantState = {
   isDeleteModalOpened: false,
   isUpdateModalOpened: false,
   selectedShift: null,
+  selectedWorker: null,
 };
 
 const LOGIN_USER = '[USER] Login';
@@ -162,9 +163,9 @@ export const workerReducer = (state = initialRestaurantState, action) => {
         ...state,
         workers: state.workers.map((worker) => {
           if (worker.id === action.payload.worker.id) {
-            return {...action.payload.worker};
+            return { ...action.payload.worker };
           }
-          return worker
+          return worker;
         }),
       };
 

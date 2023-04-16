@@ -5,16 +5,17 @@ import { RestaurantContext } from '../../Context/Context';
 import { deleteWorker } from '../../API/api';
 import {
   toggleDeleteModal,
-  deleteWorker,
+  deleteWorker as deleteWorkerAction,
 } from '../../Reducers/restaurantReducer';
 
 export default function DeleteWorkerModal() {
-  const [{ worker }, dispatch] = useContext(RestaurantContext);
+  const [{ workers }, dispatch] = useContext(RestaurantContext);
+  const worker = workers[0];
 
   const handleDelete = async () => {
     try {
       await deleteWorker(worker.id);
-      dispatch(deleteWorker(worker.id));
+      dispatch(deleteWorkerAction(worker.id));
       dispatch(toggleDeleteModal());
     } catch (error) {
       console.error(error);
@@ -27,9 +28,7 @@ export default function DeleteWorkerModal() {
       <div style={{ fontStyle: 'italic', margin: '20px 0 30px' }}>
         <p>
           <span style={{ fontWeight: 'bold ' }}>Worker:</span>
-          {worker
-            ? ` ${worker.name} ${worker.surname}`
-            : ' Not Available'}
+          {worker ? ` ${worker.name} ${worker.surname}` : ' Not Available'}
         </p>
         <p>
           <span style={{ fontWeight: 'bold' }}>ID:</span>

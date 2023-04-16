@@ -58,47 +58,61 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
     >
       <TextField
         required
-        label="name"
+        label="Name"
         {...register('name')}
         fullWidth
-        placeholder="name"
+        placeholder="Enter name"
         type="textfield"
         sx={{
           mb: 2,
         }}
       />
-      <div style={{ display: 'flex' }}>
-        <TextField
-          required
-          label="Start Hour"
-          placeholder="Enter surname"
-          {...register('surname')}
-          sx={{
-            mb: 2,
-            mr: '10px',
-          }}
-        />
-        <TextField
-          required
-          name="username"
-          label="username"
-          placeholder="Enter username"
-          {...register('username')}
-          sx={{
-            mb: 2,
-          }}
-        />
-      </div>
+      <TextField
+        required
+        label="Surname"
+        placeholder="Enter surname"
+        {...register('surname')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
+      />
+      <TextField
+        required
+        name="username"
+        label="Username"
+        placeholder="Enter username"
+        {...register('username')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
+      />
       <TextField
         required
         label="password"
         placeholder="Enter password"
         type="password"
         {...register('password')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
+      />
+      <TextField
+        required
+        label="Worker Level"
+        placeholder="Enter worker level"
+        type="text"
+        {...register('workerLevel')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
       />
 
       <Button type="submit" variant="solid">
-        {isEditModal ? 'Edit' : 'Add'} shift
+        {isEditModal ? 'Edit' : 'Add'} worker
       </Button>
     </Box>
   );
