@@ -138,12 +138,19 @@ export default function Dashboard() {
       <RestaurantDialog
         open={isUpdateModalOpened}
         onClose={() => dispatch(toggleUpdateModal())}
-        title="Edit shift"
+        title={isShiftsActive ? 'Edit shift' : 'Edit worker'}
       >
-        <AddNewShiftModal
-          handleClose={() => toggleUpdateModal()}
-          isEditModal={true}
-        />
+        {isShiftsActive ? (
+          <AddNewShiftModal
+            handleClose={() => toggleUpdateModal()}
+            isEditModal={true}
+          />
+        ) : (
+          <AddNewWorkerModal
+            handleClose={() => toggleUpdateModal()}
+            isEditModal={true}
+          />
+        )}
       </RestaurantDialog>
     </div>
   );

@@ -20,6 +20,7 @@ const ADD_WORKER = '[WORKER] Add Worker';
 const DELETE_WORKER = '[WORKER] Delete Worker';
 const GET_WORKERS = '[WORKER] Get All Workers';
 const UPDATE_WORKER = '[WORKER] Update Worker';
+const SELECT_WORKER = '[WORKER] Select Worker';
 
 const TOGGLE_DELECT_MODAL = '[MODAL] Toggle Delete Modal';
 const TOGGLE_UPDATE_MODAL = '[MODAL] Toggle Update Modal';
@@ -77,6 +78,11 @@ export const toggleUpdateModal = () => ({
 export const updateShift = (shift) => ({
   type: UPDATE_SHIFT,
   payload: { shift },
+});
+
+export const selectWorker = (worker) => ({
+  type: SELECT_WORKER,
+  payload: { worker },
 });
 
 export const workerReducer = (state = initialRestaurantState, action) => {
@@ -167,6 +173,12 @@ export const workerReducer = (state = initialRestaurantState, action) => {
           }
           return worker;
         }),
+      };
+
+    case SELECT_WORKER:
+      return {
+        ...state,
+        selectedWorker: { ...action.payload.worker },
       };
 
     default:

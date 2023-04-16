@@ -9,8 +9,7 @@ import {
 } from '../../Reducers/restaurantReducer';
 
 export default function DeleteWorkerModal() {
-  const [{ workers }, dispatch] = useContext(RestaurantContext);
-  const worker = workers[0];
+  const [{ selectedWorker: worker }, dispatch] = useContext(RestaurantContext);
 
   const handleDelete = async () => {
     try {
@@ -36,7 +35,7 @@ export default function DeleteWorkerModal() {
         </p>
         <p>
           <span style={{ fontWeight: 'bold ' }}>Username:</span>
-          {worker.username ? ' Yes' : ' No'}
+          {' ' + worker.username}
         </p>
       </div>
       <Button fullWidth onClick={handleDelete}>

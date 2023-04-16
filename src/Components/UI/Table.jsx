@@ -8,7 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { FiTrash2, FiEdit } from 'react-icons/fi';
 import { RestaurantContext } from '../../Context/Context';
-import { toggleDeleteModal } from '../../Reducers/restaurantReducer';
+import {
+  toggleDeleteModal,
+  toggleUpdateModal,
+  selectWorker,
+} from '../../Reducers/restaurantReducer';
 
 export default function RestaurantTable({ workers }) {
   const [, dispatch] = useContext(RestaurantContext);
@@ -39,9 +43,22 @@ export default function RestaurantTable({ workers }) {
               <TableCell align="right">{worker.surname}</TableCell>
               <TableCell align="right">{worker.username}</TableCell>
               <TableCell align="right">{worker.workerLevel}</TableCell>
-              <TableCell align="right">
-                <FiEdit />
-                <FiTrash2 onClick={() => dispatch(toggleDeleteModal())} />
+              <TableCell
+                align="right"
+                onClick={() => dispatch(selectWorker(worker))}
+              >
+                <FiEdit
+                  style={{
+                    fontSize: '20px',
+                    marginRight: '10px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => dispatch(toggleUpdateModal())}
+                />
+                <FiTrash2
+                  style={{ fontSize: '20px', cursor: 'pointer' }}
+                  onClick={() => dispatch(toggleDeleteModal())}
+                />
               </TableCell>
             </TableRow>
           ))}

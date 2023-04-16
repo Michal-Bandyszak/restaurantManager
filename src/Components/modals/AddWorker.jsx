@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/joy/Button';
 import { useForm } from 'react-hook-form';
 
@@ -11,7 +9,7 @@ import { RestaurantContext } from '../../Context/Context';
 import { addNewWorker } from '../../Reducers/restaurantReducer';
 
 export default function AddNewWorkerModal({ handleClose, isEditModal }) {
-  const [{ worker }, dispatch] = useContext(RestaurantContext);
+  const [{ selectedWorker: worker }, dispatch] = useContext(RestaurantContext);
   const {
     register,
     handleSubmit,
