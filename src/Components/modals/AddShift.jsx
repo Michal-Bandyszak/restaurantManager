@@ -30,12 +30,17 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
     const dateTimestamp = new Date(formData.date).getTime();
     if (isEditModal) {
       const shiftData = {
-        ...shift,
         ...formData,
+        startHour: parseInt(formData.startHour),
+        endHour: parseInt(formData.endHour),
+        workerId: parseInt(shift.worker.id),
+        shiftId: parseInt(shift.id),
         date: dateTimestamp,
       };
+
       const data = await updateWorkerShift(shiftData);
       dispatch(updateShift(data));
+
     } else {
       const shiftData = {
         ...formData,

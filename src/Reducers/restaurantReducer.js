@@ -18,6 +18,7 @@ const UPDATE_SHIFT = '[SHIFT] Update Shift';
 const ADD_WORKER = '[WORKER] Add Worker';
 const DELETE_WORKER = '[WORKER] Delete Worker';
 const GET_WORKERS = '[WORKER] Get All Workers';
+const UPDATE_WORKER = '[WORKER] Update Worker';
 
 const TOGGLE_DELECT_MODAL = '[MODAL] Toggle Delete Modal';
 const TOGGLE_UPDATE_MODAL = '[MODAL] Toggle Update Modal';
@@ -34,7 +35,7 @@ export const addNewShift = (shift) => ({
   payload: { shift },
 });
 
-export const addWorker = (worker) => ({
+export const addNewWorker = (worker) => ({
   type: ADD_WORKER,
   payload: { worker },
 });
@@ -78,7 +79,6 @@ export const updateShift = (shift) => ({
 });
 
 export const workerReducer = (state = initialRestaurantState, action) => {
-  console.log(action);
   switch (action.type) {
     case ADD_WORKER:
       return {
@@ -154,6 +154,17 @@ export const workerReducer = (state = initialRestaurantState, action) => {
             return { ...action.payload.shift };
           }
           return shift;
+        }),
+      };
+
+    case UPDATE_WORKER:
+      return {
+        ...state,
+        workers: state.workers.map((worker) => {
+          if (worker.id === action.payload.worker.id) {
+            return {...action.payload.worker};
+          }
+          return worker
         }),
       };
 
