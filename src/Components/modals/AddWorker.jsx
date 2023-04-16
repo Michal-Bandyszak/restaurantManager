@@ -6,44 +6,41 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/joy/Button';
 import { useForm } from 'react-hook-form';
 
-import { addShift, updateWorkerShift } from '../../API/api';
+import { addWorker, updateWorker } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
-import { addNewShift, updateShift } from '../../Reducers/restaurantReducer';
-import { parseDate } from '../../utils/parseDate';
+import { addNewWorker } from '../../Reducers/restaurantReducer';
 
 export default function AddNewWorkerModal({ handleClose, isEditModal }) {
-  const [{ shift }, dispatch] = useContext(RestaurantContext);
+  const [{ worker }, dispatch] = useContext(RestaurantContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      date: isEditModal ? parseDate(shift.date) : null,
-      startHour: isEditModal ? shift.startHour : null,
-      endHour: isEditModal ? shift.endHour : null,
-      isAvailable: isEditModal ? shift.isAvailable : false,
-      workerId: isEditModal ? shift.worker.id : null,
+      name: isEditModal ? worker.name : null,
+      surname: isEditModal ? worker.surname : null,
+      username: isEditModal ? worker.username : null,
+      password: isEditModal ? worker.password : null,
+      workerLevel: isEditModal ? worker.workerLevel : null,
     },
   });
 
   async function onSubmit(formData) {
-    const dateTimestamp = new Date(formData.date).getTime();
     if (isEditModal) {
-      const shiftData = {
-        ...shift,
+      const workerData = {
         ...formData,
-        date: dateTimestamp,
+        workerId: parseInt(worker.id),
       };
-      const data = await updateWorkerShift(shiftData);
-      dispatch(updateShift(data));
+
+      const data = await updateWorker(workerData);
+      dispatch(updateWorker(data));
     } else {
-      const shiftData = {
+      const workerData = {
         ...formData,
-        date: dateTimestamp,
       };
-      const data = await addShift(shiftData);
-      dispatch(addNewShift(data));
+      const data = await addWorker(workerData);
+      dispatch(addNewWorker(data));
     }
     handleClose();
   }
@@ -61,25 +58,21 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
     >
       <TextField
         required
-        label="Date"
-        {...register('date')}
+        label="name"
+        {...register('name')}
         fullWidth
-        placeholder="Enter date"
-        type="date"
+        placeholder="name"
+        type="textfield"
         sx={{
           mb: 2,
-        }}
-        InputLabelProps={{
-          shrink: true,
         }}
       />
       <div style={{ display: 'flex' }}>
         <TextField
           required
           label="Start Hour"
-          placeholder="Enter start hour"
-          {...register('startHour')}
-          type="number"
+          placeholder="Enter surname"
+          {...register('surname')}
           sx={{
             mb: 2,
             mr: '10px',
@@ -87,11 +80,10 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
         />
         <TextField
           required
-          name="endHour"
-          label="End Hour"
-          placeholder="Enter end hour"
-          {...register('endHour')}
-          type="number"
+          name="username"
+          label="username"
+          placeholder="Enter username"
+          {...register('username')}
           sx={{
             mb: 2,
           }}
@@ -99,19 +91,12 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
       </div>
       <TextField
         required
-        label="Worker ID"
-        placeholder="Enter Worker ID"
-        type="number"
-        {...register('workerId')}
-        fullWidth
+        label="password"
+        placeholder="Enter password"
+        type="password"
+        {...register('password')}
       />
-      <FormControlLabel
-        control={<Checkbox {...register('isAvailable')} />}
-        label="Is worker available?"
-        sx={{
-          width: '100%',
-        }}
-      />
+
       <Button type="submit" variant="solid">
         {isEditModal ? 'Edit' : 'Add'} shift
       </Button>
