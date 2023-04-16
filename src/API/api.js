@@ -9,74 +9,9 @@ const restaurantAPI = axios.create({
 });
 
 export function getAllShifts() {
-  // return restaurantAPI.get(`${URL}/shift/all`)
-  //   .then((response) => {
-  //     return response.data;
-  //   });
-
-  const data = [
-    {
-      id: 1,
-      worker: {
-        id: 1,
-        username: 'username1',
-        password: null,
-        name: 'name1',
-        surname: 'surname1',
-        workerLevel: null,
-      },
-      date: '2022-12-30T23:00:00.000+00:00',
-      startHour: 8,
-      endHour: 16,
-      available: true,
-    },
-    {
-      id: 2,
-      worker: {
-        id: 1,
-        username: 'username1',
-        password: null,
-        name: 'name1',
-        surname: 'surname1',
-        workerLevel: null,
-      },
-      date: '2022-12-29T23:00:00.000+00:00',
-      startHour: 9,
-      endHour: 12,
-      available: true,
-    },
-    {
-      id: 3,
-      worker: {
-        id: 1,
-        username: 'username1',
-        password: null,
-        name: 'name1',
-        surname: 'surname1',
-        workerLevel: null,
-      },
-      date: '2022-12-28T23:00:00.000+00:00',
-      startHour: 8,
-      endHour: 16,
-      available: false,
-    },
-    {
-      id: 4,
-      worker: {
-        id: 2,
-        username: 'username2',
-        password: null,
-        name: 'name2',
-        surname: 'surname2',
-        workerLevel: null,
-      },
-      date: '2022-12-29T23:00:00.000+00:00',
-      startHour: 9,
-      endHour: 17,
-      available: true,
-    },
-  ];
-  return Promise.resolve(data);
+  return restaurantAPI.get(`${URL}/shift/all`).then((response) => {
+    return response.data;
+  });
 }
 
 export function login(username, password) {
@@ -186,34 +121,7 @@ export function deleteWorker(workerId) {
 }
 
 export function getWorkers() {
-  // return restaurantAPI.get(`${URL}/workers/all`).then((response) => {
-  //   return response.data;
-  // });
-  const data = [
-    {
-      id: 1,
-      username: 'username1',
-      password: null,
-      name: 'name1',
-      surname: 'surname1',
-      workerLevel: 'ADMIN',
-    },
-    {
-      id: 2,
-      username: 'username2',
-      password: null,
-      name: 'name2',
-      surname: 'surname2',
-      workerLevel: 'WORKER',
-    },
-    {
-      id: 3,
-      username: 'Bananana1',
-      password: null,
-      name: 'Andrew',
-      surname: 'Banana',
-      workerLevel: 'WORKER',
-    },
-  ];
-  return Promise.resolve(data);
+  return restaurantAPI.get(`${URL}/workers/all`).then((response) => {
+    return response.data;
+  });
 }
