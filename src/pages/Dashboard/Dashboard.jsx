@@ -26,7 +26,7 @@ import {
 
 export default function Dashboard() {
   const [
-    { shifts, isDeleteModalOpened, isUpdateModalOpened, user, workers },
+    { isDeleteModalOpened, isUpdateModalOpened, user, workers },
     dispatch,
   ] = useContext(RestaurantContext);
   const [isShiftsActive, setIsShiftsActive] = useState(true);
@@ -56,7 +56,7 @@ export default function Dashboard() {
     }
   }, [user]);
 
-  if (!shifts.length) {
+  if (!user) {
     return (
       <Box
         sx={{
