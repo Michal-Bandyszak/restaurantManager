@@ -14,9 +14,11 @@ import {
 } from '../../Reducers/restaurantReducer';
 import RestaurantDialog from '../../Components/UI/Dialog';
 import AddNewShiftModal from '../../Components/modals/AddShift';
+import AddNewWorkerModal from '../../Components/modals/AddWorker';
 import CircularProgress from '@mui/joy/CircularProgress';
 import Box from '@mui/joy/Box';
 import DeleteShiftModal from '../../Components/modals/DeleteShift';
+import DeleteWorkerModal from '../../Components/modals/DeleteWorker';
 import {
   toggleDeleteModal,
   toggleUpdateModal,
@@ -27,16 +29,13 @@ export default function Dashboard() {
     { shifts, isDeleteModalOpened, isUpdateModalOpened, user, workers },
     dispatch,
   ] = useContext(RestaurantContext);
-  const [isShiftsActive, setIsShiftsActive] = useState(true);
+  const [isShiftsActive, setIsShiftsActive] = useState(false);
   const [open, setOpen] = useState(false);
-  console.log(workers);
 
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem('user'));
     dispatch(loginUser(user));
-    getWorkers().then((workers) => {
-      dispatch(getAllWorkers(workers));
-    });
+    getWorkers().then((workers) => dispatch(getAllWorkers(workers)));
   }, [dispatch]);
 
   useEffect(() => {
@@ -84,6 +83,9 @@ export default function Dashboard() {
           <Button
             onClick={() => setIsShiftsActive(false)}
             className={isShiftsActive ? 'active' : ''}
+            sx={{
+              display: user && user.workerLevel === 'ADMIN' ? 'block' : 'none',
+            }}
           >
             Workers
           </Button>
@@ -93,7 +95,7 @@ export default function Dashboard() {
           className="add-shift"
           variant="contained"
         >
-          Add shift
+          {isShiftsActive ? 'Add shift' : 'Add Worker'}
         </Button>
       </div>
       <div className="dashboard-content">
@@ -103,16 +105,22 @@ export default function Dashboard() {
             secondStepArr={dayOfWeek.filter((day) => !day.isFirstStep)}
           />
         ) : (
-          <RestaurantTable />
+          <RestaurantTable workers={workers} />
         )}
       </div>
 
       <RestaurantDialog
         open={open}
         onClose={() => setOpen(false)}
-        title="Add shift"
+        title={isShiftsActive ? 'Add shift' : 'Add worker'}
       >
-        <AddNewShiftModal handleClose={() => setOpen(false)} />
+        {isShiftsActive ? (
+          <AddNewShiftModal handleClose={() => setOpen(false)} />
+        ) : (
+          <AddNewWorkerModal
+            handleClose={() => setOpen(false)}
+          ></AddNewWorkerModal>
+        )}
       </RestaurantDialog>
 
       <RestaurantDialog
@@ -120,18 +128,29 @@ export default function Dashboard() {
         onClose={() => dispatch(toggleDeleteModal())}
         title="Are you sure?"
       >
-        <DeleteShiftModal onClose={() => dispatch(toggleDeleteModal())} />
+        {isShiftsActive ? (
+          <DeleteShiftModal onClose={() => dispatch(toggleDeleteModal())} />
+        ) : (
+          <DeleteWorkerModal onClose={() => dispatch(toggleDeleteModal())} />
+        )}
       </RestaurantDialog>
 
       <RestaurantDialog
         open={isUpdateModalOpened}
         onClose={() => dispatch(toggleUpdateModal())}
-        title="Edit shift"
+        title={isShiftsActive ? 'Edit shift' : 'Edit worker'}
       >
-        <AddNewShiftModal
-          handleClose={() => toggleUpdateModal()}
-          isEditModal={true}
-        />
+        {isShiftsActive ? (
+          <AddNewShiftModal
+            handleClose={() => toggleUpdateModal()}
+            isEditModal={true}
+          />
+        ) : (
+          <AddNewWorkerModal
+            handleClose={() => toggleUpdateModal()}
+            isEditModal={true}
+          />
+        )}
       </RestaurantDialog>
     </div>
   );

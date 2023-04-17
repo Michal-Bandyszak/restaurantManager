@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import { addShift, updateWorkerShift } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
 import { addNewShift, updateShift } from '../../Reducers/restaurantReducer';
+import { parseDate } from '../../utils/parseDate';
 
 export default function AddNewShiftModal({ handleClose, isEditModal }) {
   const [{ shift }, dispatch] = useContext(RestaurantContext);
@@ -18,7 +19,7 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      date: isEditModal ? new Date(shift.date).getTime() : null,
+      date: isEditModal ? parseDate(shift.date) : null,
       startHour: isEditModal ? shift.startHour : null,
       endHour: isEditModal ? shift.endHour : null,
       isAvailable: isEditModal ? shift.isAvailable : false,
@@ -72,6 +73,9 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
         type="date"
         sx={{
           mb: 2,
+        }}
+        InputLabelProps={{
+          shrink: true,
         }}
       />
       <div style={{ display: 'flex' }}>

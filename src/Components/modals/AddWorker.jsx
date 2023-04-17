@@ -1,8 +1,6 @@
 import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/joy/Button';
 import { useForm } from 'react-hook-form';
 
@@ -11,7 +9,7 @@ import { RestaurantContext } from '../../Context/Context';
 import { addNewWorker } from '../../Reducers/restaurantReducer';
 
 export default function AddNewWorkerModal({ handleClose, isEditModal }) {
-  const [{ worker }, dispatch] = useContext(RestaurantContext);
+  const [{ selectedWorker: worker }, dispatch] = useContext(RestaurantContext);
   const {
     register,
     handleSubmit,
@@ -22,7 +20,7 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
       surname: isEditModal ? worker.surname : null,
       username: isEditModal ? worker.username : null,
       password: isEditModal ? worker.password : null,
-      workerLevel: isEditModal ? worker.workerLevel : null
+      workerLevel: isEditModal ? worker.workerLevel : null,
     },
   });
 
@@ -35,10 +33,9 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
 
       const data = await updateWorker(workerData);
       dispatch(updateWorker(data));
-
     } else {
       const workerData = {
-        ...formData
+        ...formData,
       };
       const data = await addWorker(workerData);
       dispatch(addNewWorker(data));
@@ -59,47 +56,61 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
     >
       <TextField
         required
-        label="name"
+        label="Name"
         {...register('name')}
         fullWidth
-        placeholder="name"
+        placeholder="Enter name"
         type="textfield"
         sx={{
           mb: 2,
         }}
       />
-      <div style={{ display: 'flex' }}>
-        <TextField
-          required
-          label="Start Hour"
-          placeholder="Enter surname"
-          {...register('surname')}
-          sx={{
-            mb: 2,
-            mr: '10px',
-          }}
-        />
-        <TextField
-          required
-          name="username"
-          label="username"
-          placeholder="Enter username"
-          {...register('username')}
-          sx={{
-            mb: 2,
-          }}
-        />
-      </div>
+      <TextField
+        required
+        label="Surname"
+        placeholder="Enter surname"
+        {...register('surname')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
+      />
+      <TextField
+        required
+        name="username"
+        label="Username"
+        placeholder="Enter username"
+        {...register('username')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
+      />
       <TextField
         required
         label="password"
         placeholder="Enter password"
         type="password"
         {...register('password')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
       />
-     
+      <TextField
+        required
+        label="Worker Level"
+        placeholder="Enter worker level"
+        type="text"
+        {...register('workerLevel')}
+        fullWidth
+        sx={{
+          mb: 2,
+        }}
+      />
+
       <Button type="submit" variant="solid">
-        {isEditModal ? 'Edit' : 'Add'} shift
+        {isEditModal ? 'Edit' : 'Add'} worker
       </Button>
     </Box>
   );
