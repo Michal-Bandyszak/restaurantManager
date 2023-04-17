@@ -85,6 +85,11 @@ export const selectWorker = (worker) => ({
   payload: { worker },
 });
 
+export const updateWorker = (worker) => ({
+  type: UPDATE_WORKER,
+  payload: { worker },
+});
+
 export const workerReducer = (state = initialRestaurantState, action) => {
   switch (action.type) {
     case ADD_WORKER:

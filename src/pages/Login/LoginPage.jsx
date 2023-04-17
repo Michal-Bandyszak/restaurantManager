@@ -23,6 +23,7 @@ const LoginPage = () => {
   function onSubmit({ username, password }) {
     login(username, password)
       .then((user) => {
+        console.log(user)
         dispatch(loginUser(user));
         navigate('/');
       })

@@ -29,13 +29,12 @@ export default function Dashboard() {
     { shifts, isDeleteModalOpened, isUpdateModalOpened, user, workers },
     dispatch,
   ] = useContext(RestaurantContext);
-  const [isShiftsActive, setIsShiftsActive] = useState(false);
+  const [isShiftsActive, setIsShiftsActive] = useState(true);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem('user'));
     dispatch(loginUser(user));
-    getWorkers().then((workers) => dispatch(getAllWorkers(workers)));
   }, [dispatch]);
 
   useEffect(() => {
@@ -51,6 +50,10 @@ export default function Dashboard() {
         dispatch(loadShifts(shifts));
       })
       .catch();
+
+    if (user.workerLevel === 'ADMIN') {
+      getWorkers().then((workers) => dispatch(getAllWorkers(workers)));
+    }
   }, [user]);
 
   if (!shifts.length) {

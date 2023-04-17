@@ -12,7 +12,7 @@ import { addNewShift, updateShift } from '../../Reducers/restaurantReducer';
 import { parseDate } from '../../utils/parseDate';
 
 export default function AddNewShiftModal({ handleClose, isEditModal }) {
-  const [{ shift }, dispatch] = useContext(RestaurantContext);
+  const [{ shift, user }, dispatch] = useContext(RestaurantContext);
   const {
     register,
     handleSubmit,
@@ -46,6 +46,7 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
       const shiftData = {
         ...formData,
         date: dateTimestamp,
+        workerId: user.workerLevel === 'ADMIN' ? Number(formData.workerId) : user.id,
       };
       const data = await addShift(shiftData);
       dispatch(addNewShift(data));
@@ -102,14 +103,17 @@ export default function AddNewShiftModal({ handleClose, isEditModal }) {
           }}
         />
       </div>
-      <TextField
-        required
-        label="Worker ID"
-        placeholder="Enter Worker ID"
-        type="number"
-        {...register('workerId')}
-        fullWidth
-      />
+      {
+        user.workerLevel === 'ADMIN' && 
+        <TextField
+          required
+          label="Worker ID"
+          placeholder="Enter Worker ID"
+          type="number"
+          {...register('workerId')}
+          fullWidth
+        />
+      }
       <FormControlLabel
         control={<Checkbox {...register('isAvailable')} />}
         label="Is worker available?"

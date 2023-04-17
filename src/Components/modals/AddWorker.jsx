@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import { addWorker, updateWorker } from '../../API/api';
 import { RestaurantContext } from '../../Context/Context';
-import { addNewWorker } from '../../Reducers/restaurantReducer';
+import { addNewWorker, updateWorker as updateWorkerAction } from '../../Reducers/restaurantReducer';
 
 export default function AddNewWorkerModal({ handleClose, isEditModal }) {
   const [{ selectedWorker: worker }, dispatch] = useContext(RestaurantContext);
@@ -19,7 +19,6 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
       name: isEditModal ? worker.name : null,
       surname: isEditModal ? worker.surname : null,
       username: isEditModal ? worker.username : null,
-      password: isEditModal ? worker.password : null,
       workerLevel: isEditModal ? worker.workerLevel : null,
     },
   });
@@ -32,7 +31,7 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
       };
 
       const data = await updateWorker(workerData);
-      dispatch(updateWorker(data));
+      dispatch(updateWorkerAction(data));
     } else {
       const workerData = {
         ...formData,
@@ -81,17 +80,6 @@ export default function AddNewWorkerModal({ handleClose, isEditModal }) {
         label="Username"
         placeholder="Enter username"
         {...register('username')}
-        fullWidth
-        sx={{
-          mb: 2,
-        }}
-      />
-      <TextField
-        required
-        label="password"
-        placeholder="Enter password"
-        type="password"
-        {...register('password')}
         fullWidth
         sx={{
           mb: 2,
