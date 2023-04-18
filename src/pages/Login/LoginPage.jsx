@@ -23,9 +23,10 @@ const LoginPage = () => {
   function onSubmit({ username, password }) {
     login(username, password)
       .then((user) => {
-        console.log(user)
         dispatch(loginUser(user));
-        navigate('/');
+        setTimeout(() => {
+          navigate('/');
+        }, 500);
       })
       .catch((error) => {
         console.error(error);
