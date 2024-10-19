@@ -1,17 +1,14 @@
-# Restaurant Manager Frontend
-
-This repository contains the frontend code for a Restaurant Manager application, developed as part of a bachelor's project. The application is designed to help manage various aspects of restaurant operations.
-
 ## Project Overview
-
-The Restaurant Manager is a fullstack application with this repository focusing on the frontend implementation. It's built using modern web technologies to provide an intuitive and efficient interface for restaurant management tasks.
+The Restaurant Manager is a fullstack application  developed as part of my bachelor's project, with this repository focusing on the frontend implementation. It's built using modern web technologies to provide an intuitive and efficient interface for restaurant management tasks.
 
 ## Technologies Used
-
-- React.js
-- JavaScript
-- HTML/CSS
-- Context API
+React.js: For building a dynamic and responsive user interface.
+JavaScript (ES6+): Leveraging modern JavaScript features for efficient coding.
+HTML5 & CSS3: Structuring and styling the application for optimal user experience.
+Context API: For state management across the application.
+React Router: For handling navigation within the single-page application.
+Axios: For making HTTP requests to the backend API.
+Material-UI: Implementing a consistent and professional design system.
 
 - ## Features:
 - Employee scheduling
